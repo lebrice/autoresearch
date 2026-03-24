@@ -24,3 +24,5 @@ results.tsv
 
 # uv lockfile (may change depending on the cluster used).
 uv.lock
+# log file
+run.log
