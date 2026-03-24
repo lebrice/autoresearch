@@ -56,6 +56,8 @@ fi
 # See https://slurm.schedmd.com/srun.html#OPT_gres-flags
 # and https://support.schedmd.com/show_bug.cgi?id=17875 for details.
 # set +e
+echo "Running training script"
+set -x  # print commands as they are executed for easier debugging.
 srun --gres-flags=allow-task-sharing bash -c \
     "RANK=\$SLURM_PROCID LOCAL_RANK=\$SLURM_LOCALID \
     uv run --directory=$UV_DIR $@"
