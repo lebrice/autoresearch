@@ -60,5 +60,5 @@ echo "Running training script"
 set -x  # print commands as they are executed for easier debugging.
 srun --gres-flags=allow-task-sharing bash -c \
     "RANK=\$SLURM_PROCID LOCAL_RANK=\$SLURM_LOCALID \
-    uv run --directory=$UV_DIR $@"
+    uv run --directory=$UV_DIR \"\$@\"" -- "$@"
 # rsync -a $UV_DIR/logs logs
