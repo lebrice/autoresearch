@@ -26,3 +26,4 @@ results.tsv
 uv.lock
 # log file
 run.log
+logs
