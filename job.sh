@@ -17,14 +17,6 @@ UV_DIR=$(./code_checkpointing.sh)
 echo "Git commit used for this job: ${GIT_COMMIT:-not set - code checkpointing is not enabled}"
 echo "Running uv commands in directory: $UV_DIR"
 
-# TODO: Important: Since we don't yet use absolute paths in the config for the output directory, we need
-# to create a symlink from $UV_DIR/logs to `cwd`/logs (which hopefully is a symlink to somewhere in $SCRATCH).
-# TODO: Could also recopy the logs from $UV_DIR/logs to scratch at the end of the job.
-
-# NOTE: $UV_DIR is *literally* '$SLURM_TMPDIR/repo_name', and $SLURM_TMPDIR is not evaluated yet.
-# todo: Evaluate UV_DIR
-bash -c "ln -s -t $UV_DIR logs"
-
 
 # These environment variables are used by the torch and jax distributed modules, and should
 # ideally be set before running the python script, or at the very beginning of the python script.
@@ -35,6 +27,9 @@ export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOB_ID | tail -c 4))
 export WORLD_SIZE=$SLURM_NTASKS
 
 echo "Preparing dataset"
+# TODO:
+# We should copy the dataset files from $SCRATCH to $SLURM_TMPDIR at the start of the job if they exist.
+# Otherwise, we should prepare the dataset in $SLURM_TMPDIR and copy it back to $SCRATCH at the end of the job.
 srun --ntasks-per-node=1 --nodes=${SLURM_JOB_NUM_NODES:-1} bash -c "uv run --directory=$UV_DIR python prepare.py"
 
 # Here we use srun to launch the task across potentially many GPUs and nodes.
