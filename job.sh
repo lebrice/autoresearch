@@ -36,8 +36,8 @@ srun --ntasks-per-node=1 --nodes=${SLURM_JOB_NUM_NODES:-1} bash -c "uv run --dir
 #since if `safe_sbatch` was used to submit the job, UV_DIR might be inside SLURM_TMPDIR.
 # If UV_DIR is not empty, then UV_DIR is in $SLURM_TMPDIR.
 if [[ -n "$UV_DIR" ]]; then
-    bash -c "ln -s $SLURM_SUBMIT_DIR/results.tsv"
-    bash -c "ln -s $SLURM_SUBMIT_DIR/logs"
+    bash -c "ln -s $SLURM_SUBMIT_DIR/results.tsv $UV_DIR"
+    bash -c "ln -s $SLURM_SUBMIT_DIR/logs $UV_DIR"
 fi
 
 # Here we use srun to launch the task across potentially many GPUs and nodes.
