@@ -32,9 +32,13 @@ echo "Preparing dataset"
 # Otherwise, we should prepare the dataset in $SLURM_TMPDIR and copy it back to $SCRATCH at the end of the job.
 srun --ntasks-per-node=1 --nodes=${SLURM_JOB_NUM_NODES:-1} bash -c "uv run --directory=$UV_DIR python prepare.py"
 
-# TODO: We might need to create links to the results.tsv file in the submit directory,
-# since if `safe_sbatch` was used to submit the job, UV_DIR might be inside SLURM_TMPDIR.
-# bash -c "ln -s $SLURM_SUBMIT_DIR/results.tsv"
+#TODO: We might need to create links to the results.tsv file in the submit directory,
+#since if `safe_sbatch` was used to submit the job, UV_DIR might be inside SLURM_TMPDIR.
+# If UV_DIR is not empty, then UV_DIR is in $SLURM_TMPDIR.
+if [[ -n "$UV_DIR" ]]; then
+    bash -c "ln -s $SLURM_SUBMIT_DIR/results.tsv"
+    bash -c "ln -s $SLURM_SUBMIT_DIR/logs"
+fi
 
 # Here we use srun to launch the task across potentially many GPUs and nodes.
 # This setup is fully flexible as to how the GPUs are distributed accross nodes.
