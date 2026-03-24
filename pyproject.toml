@@ -40,3 +40,19 @@ flash_attn = [
 name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
 explicit = true
+
+
+[tool.cluv]
+clusters = [
+    "mila",
+    "tamia",
+    "narval",
+    "rorqual",
+    "fir",
+    # "nibi",  getting weird errors with nibi, (bash: line 1: git-receive-pack: command not found)
+    "killarney",
+    "vulcan",
+    # "trillium",
+    "trillium-gpu",
+]
+results_path = "logs" # Relative path where results are stored.
