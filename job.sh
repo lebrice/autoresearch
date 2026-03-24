@@ -4,7 +4,7 @@
 #SBATCH --gpus=1
 #SBATCH --mem-per-gpu=16G
 #SBATCH --time=01:00:00
-#SBATCH --output=logs/%j/out.txt
+#SBATCH --output=logs/%j.out
 #SBATCH --switches=1@600   # try to find a set of nodes on the same switch when doing multi-node.
 
 set -e  # exit on the first error.
