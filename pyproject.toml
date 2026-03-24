@@ -15,7 +15,6 @@ dependencies = [
     "rustbpe>=0.1.0",
     "tiktoken>=0.11.0",
     "torch==2.9.1",
-    # "flash_attn==2.8.3",
 ]
 
 [tool.uv]
@@ -31,7 +30,7 @@ torch = [{ index = "pytorch-cu130" }]
 # ]
 
 [tool.uv.extra-build-dependencies]
-flash-attn = [{ requirement = "torch", match-runtime = true }]
+flash-attn = ["torch", "nvidia-cuda-nvcc"]
 
 [tool.uv.extra-build-variables]
 flash-attn = { MAX_JOBS = "1", TORCH_CUDA_ARCH_LIST = "7.0;7.5;8.0;8.6;8.9;9.0" }
